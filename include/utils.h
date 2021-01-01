@@ -10,3 +10,5 @@
 
 #define BUFFER_SIZE 1000
 extern int errno;
+
+int input_int(char *);
