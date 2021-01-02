@@ -3,9 +3,16 @@
 
 int main(int argc, char const *argv[])
 {
-    Record employee;
     int choice;
     int status;
+    char *struct_info = {
+        "Employee",
+        "id",
+        "firstName",
+        "lastName",
+        "age",
+        "basic_salary",
+        "role"};
 
     while (1)
     {
@@ -18,17 +25,18 @@ int main(int argc, char const *argv[])
         switch (choice)
         {
         case 1:
-            status = add_record();
+            Employee *employee = NULL;
+            generateRecord(&employee);
+            status = saveRecord(employee);
 
             if (STATUS_SUCCESS)
             {
-                printf("Record Added.");
+                printf("Record Saved.");
             }
 
             break;
 
         case 2:
-            status = list_record();
 
             if (STATUS_SUCCESS)
             {
@@ -37,7 +45,6 @@ int main(int argc, char const *argv[])
             break;
 
         case 3:
-            status = modify_record();
 
             if (STATUS_SUCCESS)
             {
@@ -46,7 +53,6 @@ int main(int argc, char const *argv[])
             break;
 
         case 4:
-            status = delete_record();
 
             if (STATUS_SUCCESS)
             {
