@@ -6,20 +6,22 @@
 
 typedef struct record
 {
-    int id;
+    char id[30];
     char *firstName;
     char *lastName;
-    int age;
-    float basic_salary;
+    char *age;
+    char *basic_salary;
     char *role;
-} Record;
+} Employee;
 
 void DisplayProgramInterface();
 
-int add_record();
+void generateRecord(Employee **);
 
-int list_record();
+int saveRecord(Employee *);
 
-int modify_record();
+void listRecord(Employee *);
 
-int delete_record();
+int modifyRecord(Employee *);
+
+int deleteRecord(Employee *);
