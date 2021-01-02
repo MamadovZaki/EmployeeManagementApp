@@ -22,4 +22,4 @@ all:
 	$(DEBUG)$(MAKE_CMD)
 
 clean: 
-	rm -f $(MAIN_DIR)/$(APP_NAME)
+	rm -f $(MAIN_DIR)/bin/$(APP_NAME)
