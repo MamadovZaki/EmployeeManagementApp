@@ -74,7 +74,6 @@ char *searchf(const char *key, const char *path, long int **LINE, long int **IND
 {
     long int flen = fsize(path); // stores file size
     long int klen = strlen(key); // stores key size
-    int errnum;                  // records error number
     char buffer[BUFFER_SIZE];
     *LINE = malloc(sizeof(long int));
     **LINE = 1;
@@ -105,15 +104,16 @@ char *searchf(const char *key, const char *path, long int **LINE, long int **IND
             }
             else
             {
-                printf("Reache end of file.\n");
-                return NULL;
+                break;
             }
         }
 
-        printf("Key not found.\n");
+        printf("Search parameter is not found.\n");
+        printf("Reached end of file.\n");
+        fclose(file);
         return NULL;
     }
 
-    printf("records.txt is not found.\n");
+    printf("Records.txt is not found.\n");
     return NULL;
 }

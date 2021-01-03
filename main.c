@@ -4,15 +4,20 @@
 int main(int argc, char const *argv[])
 {
     Employee *employee;
+    Employee *emp;
     int choice;
     int status;
+    int id;
     char *_RECORDS = "/EmployeeRecords/records.txt";
     char cwd[200];
     char *out = getcwd(cwd, sizeof(cwd));
     if (out != NULL)
         strcat(cwd, _RECORDS);
     else
+    {
         printf("Unable to find records.txt\n");
+        exit(1);
+    }
 
     while (1)
     {
@@ -20,7 +25,7 @@ int main(int argc, char const *argv[])
         DisplayProgramInterface();
         printf("------------------------\n");
 
-        choice = input_int("Enter Your choice: \n");
+        choice = inpint("Enter Your choice: \n");
 
         switch (choice)
         {
@@ -36,9 +41,22 @@ int main(int argc, char const *argv[])
             break;
 
         case 2:
+            id = inpint("ID: ");
+            if (id)
+            {
+                emp = findEmployee(cwd, id);
+            }
+            else
+            {
+                printf("Invalid ID.\n");
+            }
 
-            if (STATUS_SUCCESS)
-                printf("Record Found.");
+            if (emp != NULL)
+            {
+                view_record(emp);
+
+                free(emp);
+            }
 
             break;
 

@@ -14,7 +14,7 @@ typedef struct record
     char *role;
 } Employee;
 
-extern char *_RECORDS;
+extern char *_RECORDS_PATH;
 
 void DisplayProgramInterface();
 
@@ -22,7 +22,9 @@ void generateRecord(Employee **);
 
 int saveRecord(Employee *, const char *);
 
-void listRecord(Employee *);
+Employee *findEmployee(const char *, const int);
+
+void view_record(Employee *);
 
 int modifyRecord(Employee *);
 
