@@ -16,7 +16,7 @@ void generateRecord(Employee **X)
     /*********************************************
      * Description:
      *************** 
-     *  takes employee info and save it to a file
+     * takes employee info and save it to a file
      
      * Output: 
      ***********
@@ -33,12 +33,24 @@ void generateRecord(Employee **X)
         (*X)->age = input_str("Age: ");
         (*X)->basic_salary = input_str("Basic Salary: ");
         (*X)->role = input_str("Role: ");
-        sprintf((*X)->id, "%d", generate_rand_id(10000, 99999));
+        sprintf((*X)->id, "%d", generate_rand_id(1000, 9999));
     }
 }
 
-int saveRecord(Employee *emp)
+int saveRecord(Employee *emp, const char *path)
 {
+    FILE *file;
+    if (!feof(stdin))
+        file = fopen(path, "a");
+
+    if (file != NULL)
+    {
+        fprintf(file, "ID: %s\nName: %s %s\nAge: %s\nBasic Salary: %s\nRole: %s\n\n", emp->id, emp->firstName, emp->lastName, emp->age, emp->basic_salary, emp->role);
+        fclose(file);
+        return STATUS_SUCCESS;
+    }
+
+    return STATUS_FAILED;
 }
 
 void listRecord(Employee *emp)

@@ -1,0 +1,18 @@
+ID: 10957
+Name: M Zaki
+Age: 24
+Basic Salary: 5000
+Role: CEO
+
+ID: 10492
+Name: M Rosvelt
+Age: 25
+Basic Salary: 5000
+Role: CFO
+
+ID: 10542
+Name: Sara Johnes
+Age: 22
+Basic Salary: 5000
+Role: Mechanical Engineer
+

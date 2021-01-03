@@ -3,16 +3,16 @@
 
 int main(int argc, char const *argv[])
 {
+    Employee *employee;
     int choice;
     int status;
-    char *struct_info = {
-        "Employee",
-        "id",
-        "firstName",
-        "lastName",
-        "age",
-        "basic_salary",
-        "role"};
+    char *_RECORDS = "/EmployeeRecords/records.txt";
+    char cwd[200];
+    char *out = getcwd(cwd, sizeof(cwd));
+    if (out != NULL)
+        strcat(cwd, _RECORDS);
+    else
+        printf("Unable to find records.txt\n");
 
     while (1)
     {
@@ -25,23 +25,21 @@ int main(int argc, char const *argv[])
         switch (choice)
         {
         case 1:
-            Employee *employee = NULL;
             generateRecord(&employee);
-            status = saveRecord(employee);
+            status = saveRecord(employee, cwd);
 
-            if (STATUS_SUCCESS)
-            {
+            if (status == STATUS_SUCCESS)
                 printf("Record Saved.");
-            }
+            else
+                printf("Failed to save record, please try again later.\n");
 
             break;
 
         case 2:
 
             if (STATUS_SUCCESS)
-            {
                 printf("Record Found.");
-            }
+
             break;
 
         case 3:

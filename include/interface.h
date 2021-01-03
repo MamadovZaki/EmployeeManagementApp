@@ -14,11 +14,13 @@ typedef struct record
     char *role;
 } Employee;
 
+extern char *_RECORDS;
+
 void DisplayProgramInterface();
 
 void generateRecord(Employee **);
 
-int saveRecord(Employee *);
+int saveRecord(Employee *, const char *);
 
 void listRecord(Employee *);
 
