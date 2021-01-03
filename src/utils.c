@@ -1,6 +1,6 @@
 #include "../include/utils.h"
 
-int input_int(char *msg)
+int inpint(char *msg)
 {
     printf("%s", msg);
 
@@ -19,7 +19,7 @@ int input_int(char *msg)
     return id;
 }
 
-char *input_str(char *msg)
+char *inpstr(char *msg)
 {
     char *str;
     char buffer[100];
@@ -50,4 +50,70 @@ int generate_rand_id(int MAX, int MIN)
     srand(time(NULL));
     int randomID = rand() % MAX + MIN;
     return randomID;
+}
+
+long int fsize(const char *path)
+{
+    int size;
+    FILE *file;
+    file = fopen(path, "r");
+    if (file != NULL)
+    {
+        fseek(file, 0, SEEK_END); /* SET the position at EOF */
+        size = ftell(file);       /* Record the pos at EOF to return size of file in bytes */
+        rewind(file);             /* Return to Origin - position 0 */
+        fclose(file);
+
+        return size;
+    }
+
+    return 0;
+}
+
+char *searchf(const char *key, const char *path, long int **LINE, long int **INDEX)
+{
+    long int flen = fsize(path); // stores file size
+    long int klen = strlen(key); // stores key size
+    int errnum;                  // records error number
+    char buffer[BUFFER_SIZE];
+    *LINE = malloc(sizeof(long int));
+    **LINE = 1;
+    *INDEX = malloc(sizeof(long int));
+    **INDEX = 0;
+
+    FILE *file = fopen(path, "r");
+    char *check;
+    char *psh;
+
+    if (file != NULL)
+    {
+        while (**LINE < flen)
+        {
+            check = fgets(buffer, sizeof(buffer), file);
+            if (check != NULL)
+            {
+                psh = strstr(buffer, key);
+                if (psh != NULL)
+                {
+                    **INDEX = ftell(file);
+                    printf("Found a match .. \n");
+                    printf("Scanned %ld lines\nScanned %ld Bytes\n", **LINE, **INDEX);
+                    fclose(file);
+                    return psh;
+                }
+                **LINE += 1; // !DON'T USE **LINE++ AS IT PRODUCES GARBAGE VALUE
+            }
+            else
+            {
+                printf("Reache end of file.\n");
+                return NULL;
+            }
+        }
+
+        printf("Key not found.\n");
+        return NULL;
+    }
+
+    printf("records.txt is not found.\n");
+    return NULL;
 }
