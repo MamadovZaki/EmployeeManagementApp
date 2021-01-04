@@ -117,3 +117,85 @@ char *searchf(const char *key, const char *path, long int **LINE, long int **IND
     printf("Records.txt is not found.\n");
     return NULL;
 }
+
+int updatef(const char *path, int line, const char *newline)
+{
+    FILE *file;
+    FILE *fileTemp;
+    char buffer[BUFFER_SIZE];
+    int count = 0;
+
+    /*  Open all required files */
+    file = fopen(path, "r");
+
+    // construct a new path
+    char *_temp = "/EmployeeRecords/freplace.txt";
+    char _cwd[200];
+    char *out = getcwd(_cwd, sizeof(_cwd));
+    if (out != NULL)
+        strcat(_cwd, _temp);
+    else
+    {
+        printf("\nUnable to open file.\n");
+        printf("Please check whether file exists and you have read/write privilege.\n");
+        return 0;
+    }
+
+    fileTemp = fopen(_cwd, "w");
+
+    /* fopen() return NULL if unable to open file in given mode. */
+    if (file == NULL || fileTemp == NULL)
+    {
+        /* Unable to open file hence exit */
+        printf("\nUnable to open file.\n");
+        printf("Please check whether file exists and you have read/write privilege.\n");
+        return 0;
+    }
+
+    /*
+     * Read line from source file and write to destination 
+     * file after replacing given line.
+     */
+
+    while ((fgets(buffer, BUFFER_SIZE, file)) != NULL)
+    {
+        count++;
+
+        /* If current line is line to replace */
+        if (count == line)
+            fputs(newline, fileTemp);
+        else
+            fputs(buffer, fileTemp);
+    }
+
+    /* Close all files to release resource */
+    fclose(file);
+    fclose(fileTemp);
+
+    /* Delete original source file */
+    if ((remove(path)) != 0)
+    {
+        printf("Error, terminating.\n");
+        exit(1);
+    }
+
+    /* Rename temporary file as original file */
+    if ((rename(_cwd, path)) != 0)
+    {
+        printf("Error, terminating.\n");
+        exit(1);
+    }
+
+    /* Strip the newline for a better looking log message :) */
+    if (strcmp(newline, "") != 0)
+    {
+        //newline[strcspn(newline, "\n")] = 0;
+        printf("\nSuccessfully updated file..\n");
+    }
+    else
+    {
+        printf("\nSuccessfully deleted line#%d ..\n", line);
+    }
+
+    return 1;
+}

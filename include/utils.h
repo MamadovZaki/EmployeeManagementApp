@@ -80,3 +80,5 @@ long int fsize(const char *);
      * Returns NULL if key is not found.
      *******************************************************/
 char *searchf(const char *, const char *, long int **, long int **);
+
+int updatef(const char *, int, const char *);
