@@ -2,12 +2,12 @@
 
 ## Introduction
 
-A light weight linux-compatible program written in C that runs in terminal to manage employees records supports very basic CRUD operations using normal file system (no databases).
+A light weight linux-compatible program written in C that runs on terminal to manage employees records supports very basic CRUD operations using normal file system (no databases).
 
 - When starting the program you are provided 5 options:
 
 1. Add employee record.
-2. List all employees.
+2. List an employee record.
 3. Modify an employee record.
 4. Delete an employee record.
 5. Exit
@@ -17,3 +17,14 @@ A light weight linux-compatible program written in C that runs in terminal to ma
 - Each employee is assigned a unique 5 digits ID (Not guaranteed to be unique nor random as I used an unsophisticated random number generator function).
 
 - Program is designed for educational/demonstrational purposes.
+
+---
+
+### How to Run on Terminal
+
+```sh
+& git clone https://github.com/MamadovZaki/EmployeeManagementApp.git
+$ cd EmployeeManagementApp
+$ make
+$ ./bin/EmpMGR
+```
