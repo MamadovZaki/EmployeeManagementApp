@@ -147,12 +147,171 @@ void view_record(Employee *emp)
     }
 }
 
-int modifyRecord(Employee *emp)
+int modifyRecord(int id, Employee *updatedEmp, const char *path)
 {
+    /***********************************************************************************
+     * Inputs: 
+     **********
+     * employee's ID
+     * Updated employee record 
+     * Description:
+     *************** 
+     * If any field of the record is empty, then original data is preserved
+     * If any field is not empty then it needs to be amended  
+     * Output: 
+     ***********
+     * Returns 1 if successful operation 
+     ***********************************************************************************/
+    char buffer[BUFFER_SIZE];
+    char buf_id[25];
+    Employee *originalEmp;
+    long int *index;
+    long int *line;
+    int status;
+
+    //* Find the position in the file relative to zero where employee's ID is located */
+    /* The position is the location of the newline that follows the id number in the file */
+    sprintf(buf_id, "%d", id);
+    searchf(buf_id, path, &line, &index);
+
+    /* retreived original data to be able to concat original last name or first name*/
+    originalEmp = findEmployee(path, id);
+
+    /* Scan function input record */
+
+    /* user wants to update the entire name */
+    if (updatedEmp->firstName != NULL && updatedEmp->lastName != NULL)
+    {
+        strcpy(buffer, "Name: ");
+        strcat(buffer, updatedEmp->firstName);
+        strcat(buffer, " ");
+        strcat(buffer, updatedEmp->lastName);
+        strcat(buffer, "\n");
+        status = updatef(path, *line + 1, buffer);
+        if (status == STATUS_SUCCESS)
+        {
+            printf("Updated Employee's Name Successfully ..\n");
+        }
+        else
+        {
+            printf("Failed to update due to internal error .. \n");
+            return STATUS_FAILED;
+        }
+    }
+    /* user wants to update first name only */
+    if (updatedEmp->firstName != NULL && updatedEmp->lastName == NULL)
+    {
+        strcpy(buffer, "Name: ");
+        strcat(buffer, updatedEmp->firstName);
+        strcat(buffer, " ");
+        strcat(buffer, originalEmp->lastName);
+        strcat(buffer, "\n");
+        status = updatef(path, *line + 1, buffer);
+        if (status == STATUS_SUCCESS)
+        {
+            printf("Updated Employee's First Name Successfully ..\n");
+        }
+        else
+        {
+            printf("Failed to update due to internal error .. \n");
+            return STATUS_FAILED;
+        }
+    }
+    /* user wants to update last name only */
+    if (updatedEmp->firstName == NULL && updatedEmp->lastName != NULL)
+    {
+        strcpy(buffer, "Name: ");
+        strcat(buffer, originalEmp->firstName);
+        strcat(buffer, " ");
+        strcat(buffer, updatedEmp->lastName);
+        strcat(buffer, "\n");
+        status = updatef(path, *line + 1, buffer);
+        if (status == STATUS_SUCCESS)
+        {
+            printf("Updated Employee's First Name Successfully ..\n");
+        }
+        else
+        {
+            printf("Failed to update due to internal error .. \n");
+            return STATUS_FAILED;
+        }
+    }
+
+    if (updatedEmp->age != NULL)
+    {
+        strcpy(buffer, "Age: ");
+        strcat(buffer, updatedEmp->age);
+        strcat(buffer, "\n");
+        status = updatef(path, *line + 2, buffer);
+        if (status != STATUS_SUCCESS)
+        {
+            printf("Failed to update due to internal error .. \n");
+            return STATUS_FAILED;
+        }
+        else
+        {
+            printf("Updated Employee's Age Successfully ..\n");
+        }
+    }
+
+    if (updatedEmp->basic_salary != NULL)
+    {
+        strcpy(buffer, "Basic Salary: ");
+        strcat(buffer, updatedEmp->basic_salary);
+        strcat(buffer, "\n");
+        status = updatef(path, *line + 3, buffer);
+        if (status != STATUS_SUCCESS)
+        {
+            printf("Failed to update due to internal error .. \n");
+            return STATUS_FAILED;
+        }
+        else
+        {
+            printf("Updated Employee's Basic Salary Successfully ..\n");
+        }
+    }
+
+    if (updatedEmp->role != NULL)
+    {
+        strcpy(buffer, "Role: ");
+        strcat(buffer, updatedEmp->role);
+        strcat(buffer, "\n");
+        status = updatef(path, *line + 4, buffer);
+        if (status != STATUS_SUCCESS)
+        {
+            printf("Failed to update due to internal error .. \n");
+            return STATUS_FAILED;
+        }
+        else
+        {
+            printf("Updated Employee's Role Successfully ..\n");
+        }
+    }
+
     return STATUS_SUCCESS;
 }
 
-int deleteRecord(Employee *emp)
+int deleteRecord(int id, Employee *emp, const char *path)
 {
-    return STATUS_SUCCESS;
+    int status;
+    long int *line;
+    long int *index;
+    char buf[25];
+    sprintf(buf, "%d", id);
+    char *check = searchf(buf, path, &line, &index);
+
+    if (check != NULL)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            status = updatef(path, *line, "");
+            if (status != STATUS_SUCCESS)
+            {
+                printf("Failed to delete line#%d.. \n", i);
+                return STATUS_FAILED;
+            }
+        }
+    }
+
+    return STATUS_FAILED;
 }

@@ -1,17 +1,11 @@
 ID: 10000
-Name: M Zaki
+Name: Mamadov Zaki
 Age: 24
 Basic Salary: 5000
 Role: CEO
 
-ID: 10493
-Name: M Rosvelt
-Age: 25
-Basic Salary: 5000
-Role: CFO
-
 ID: 10542
-Name: Sara Johnes
+Name: Sarah Johns
 Age: 22
 Basic Salary: 5000
 Role: Mechanical Engineer

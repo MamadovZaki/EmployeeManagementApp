@@ -57,20 +57,58 @@ int main(int argc, char const *argv[])
 
                 free(emp);
             }
+            else
+                printf("Couldn't find an employee with this ID.\n");
 
             break;
 
         case 3:
+            id = inpint("ID: ");
+            if (id)
+                emp = findEmployee(cwd, id);
+            else
+                printf("Invalid ID.\n");
 
-            if (STATUS_SUCCESS)
+            if (emp != NULL)
             {
-                printf("Record Modified.");
+                printf("Employee# %d: \n", id);
+                view_record(emp);
+                printf("\n\nPlease fill the form below with the updated info\n");
+                printf("\nWARNING: If you don't want to amend the prompted piece of data, escape by pressing <Enter> \n");
+                Employee *updated;
+                generateRecord(&updated);
+                status = modifyRecord(id, updated, cwd);
+                if (status != STATUS_SUCCESS)
+                    printf("An error occured. Please try again later.\n");
             }
+
+            else
+                printf("Couldn't find an employee with this ID.\n");
+
             break;
 
         case 4:
+            id = inpint("ID: ");
+            if (id)
+                emp = findEmployee(cwd, id);
+            else
+                printf("Invalid ID.\n");
 
-            if (STATUS_SUCCESS)
+            if (emp != NULL)
+            {
+                printf("Employee# %d: \n", id);
+                view_record(emp);
+
+                printf("\nWARNING: Once data are deleted, it can't be retreived \n");
+                char *answer = inpstr("Are you sure you want to proceed? [Y/N]\n");
+
+                if ((strcmp(answer, "YES")) == 0 || (strcmp(answer, "yes")) == 0 || (strcmp(answer, "y")) == 0 || (strcmp(answer, "Y")) == 0)
+                {
+                    status = deleteRecord(id, emp, cwd);
+                }
+            }
+
+            if (status == STATUS_SUCCESS)
             {
                 printf("Record Deleted.");
             }

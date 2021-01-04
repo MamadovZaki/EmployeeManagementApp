@@ -26,6 +26,6 @@ Employee *findEmployee(const char *, const int);
 
 void view_record(Employee *);
 
-int modifyRecord(Employee *);
+int modifyRecord(int, Employee *, const char *);
 
-int deleteRecord(Employee *);
+int deleteRecord(int, Employee *, const char *);
